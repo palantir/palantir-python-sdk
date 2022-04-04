@@ -1,0 +1,22 @@
+[MESSAGES CONTROL]
+max-line-length = 88  # match black
+
+disable=
+    fixme,
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    no-self-use,
+    too-few-public-methods,
+    line-too-long,  # defer to black
+    too-many-arguments,  # maybe just a conjure thing?
+    too-many-instance-attributes,  # conjure
+    too-many-locals,  # conjure
+    unnecessary-lambda,  # expects
+    wrong-import-order,  # black
+    duplicate-code,  # conjure
+    import-outside-toplevel,  # optional dependencies (pyarrow)
+    protected-access,  # for tests
+    attribute-defined-outside-init,  # for before methods in tests
+
+good-names=df

@@ -1,0 +1,3 @@
+[default]
+hostname = "sample.palantirfoundry.com"
+token = "sample-token"
