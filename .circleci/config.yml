@@ -1,0 +1,217 @@
+palantir_aliases:
+  - &always-run
+    filters:
+      branches:
+        only: /.*/
+      tags:
+        only: /.*/
+
+version: 2
+jobs:
+  py38:
+    docker:
+      - image: cimg/python:3.8.12
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e py38 --notest; fi
+
+      - run: python -m tox -e py38 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py39:
+    docker:
+      - image: cimg/python:3.9.10
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e py39 --notest; fi
+
+      - run: python -m tox -e py39 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py310:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e py310 --notest; fi
+
+      - run: python -m tox -e py310 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  pylint:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e pylint --notest; fi
+
+      - run: python -m tox -e pylint --recreate
+
+  black:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e black --notest; fi
+
+      - run: python -m tox -e black --recreate
+
+
+  mypy:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Setup Tox Environment
+          command: if [ ! -d ".tox" ]; then python -m tox -e mypy --notest; fi
+
+      - run: python -m tox -e mypy --recreate
+
+  publish:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Set publish version
+          command: poetry version $(git describe --tags --abbrev=0)
+
+      - deploy:
+          command: poetry publish -v -u $PYPI_USERNAME -p $PYPI_PASSWORD --build
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - py38:
+          <<: *always-run
+      - py39:
+          <<: *always-run
+      - py310:
+          <<: *always-run
+      - pylint:
+          <<: *always-run
+      - mypy:
+          <<: *always-run
+      - black:
+          <<: *always-run
+      - publish:
+          requires:
+            - py38
+            - py39
+            - py310
+            - pylint
+            - mypy
+            - black
+          filters:
+            tags: { only: '/^[0-9]+(\.[0-9]+)+(-[a-zA-Z]+[0-9]*)*$/' }
+            branches: { ignore: /.*/ }
