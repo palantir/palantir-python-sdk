@@ -1,8 +1,0 @@
-type: improvement
-improvement:
-  description: |-
-    Fix user agent
-
-    Renaming the user agent and making it easier to update its value when called from the R binding.
-  links:
-  - https://github.com/palantir/palantir-python-sdk/pull/3
