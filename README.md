@@ -17,12 +17,12 @@ Authentication tokens serve as a private password and allows a connection to Fou
 
 ## Examples
 
-### Read a dataset into a Pandas DataFrame
+### Read a Foundry Dataset into a Pandas DataFrame
 ```python
 from palantir.datasets import dataset
 
 dataset("/Path/to/dataset") \
-    .as_pandas()
+    .read_pandas()
 ```
 
 ```
@@ -40,6 +40,20 @@ dataset("/Path/to/dataset") \
 235885  235885  Zyzzogeton    10.0   0.947821       0
 
 [235886 rows x 5 columns]
+```
+
+### Write a Pandas DataFrame to a Foundry Dataset
+```python
+import pandas as pd
+from palantir.datasets import dataset
+
+df = pd.DataFrame({
+    "string": ["one", "two"],
+    "integer": [1, 2]
+})
+
+ds = dataset(f"/Path/to/dataset", create=True)
+ds.write_pandas(df)
 ```
 
 ### List files in a Dataset
@@ -81,12 +95,12 @@ next(files).read()
 b'Hello!'
 ```
 
-### Dataset functions also accept rids
+### Dataset functions also accept Resource Identifiers (rids)
 ```python
 from palantir.datasets import dataset
 
-print(dataset("ri.foundry.main.dataset.a0a94f00-754e-49ff-a4f6-4f5cc200d45d") \
-    .as_pandas())
+dataset("ri.foundry.main.dataset.a0a94f00-754e-49ff-a4f6-4f5cc200d45d") \
+    .read_pandas()
 ```
 ```
   string  integer
