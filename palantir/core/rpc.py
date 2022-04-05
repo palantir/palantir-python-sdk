@@ -17,14 +17,18 @@ from typing import TypeVar, Type, Any
 from palantir._version import __version__
 
 ServiceT = TypeVar("ServiceT", bound=Service)
-USER_AGENT = f"palantir-sdk-for-python/{__version__}"
+USER_AGENT = [("palantir-python-sdk", __version__)]
+
+
+def get_user_agent() -> str:
+    return " ".join(f"{name}/{version}" for name, version in USER_AGENT)
 
 
 class ConjureClient:
     def service(self, service: Type[ServiceT], uri: str) -> ServiceT:
         config = ServiceConfiguration()
         config.uris = [uri]
-        return RequestsClient.create(service, USER_AGENT, config)
+        return RequestsClient.create(service, get_user_agent(), config)
 
 
 def _is_collection(arg: Any, item_type: Type = object) -> bool:
