@@ -12,14 +12,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from typing import Optional, Dict, Any
+
 from conjure_python_client import (
     Service,
     ConjureDecoder,
-    OptionalType,
     ConjureBeanType,
     ConjureFieldDefinition,
+    OptionalTypeWrapper,
 )
-from typing import Optional, Dict, Any
 
 
 class PathService(Service):
@@ -51,7 +52,9 @@ class PathService(Service):
         return (
             None
             if _response.status_code == 204
-            else _decoder.decode(_response.json(), OptionalType(DecoratedResource))
+            else _decoder.decode(
+                _response.json(), OptionalTypeWrapper[DecoratedResource]
+            )
         )
 
 

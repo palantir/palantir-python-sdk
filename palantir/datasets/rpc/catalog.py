@@ -18,12 +18,11 @@ from conjure_python_client import (
     Service,
     ConjureDecoder,
     ConjureEncoder,
-    OptionalType,
     ConjureBeanType,
     ConjureFieldDefinition,
-    ListType,
     DictType,
     ConjureEnumType,
+    OptionalTypeWrapper,
 )
 
 
@@ -123,7 +122,7 @@ class CatalogService(Service):
             if _response.status_code == 204
             else _decoder.decode(
                 _response.json(),
-                OptionalType(TransactionRange),
+                OptionalTypeWrapper[TransactionRange],
             )
         )
 
@@ -296,10 +295,10 @@ class StartTransactionRequest(ConjureBeanType):
         return {
             "branch_id": ConjureFieldDefinition("branchId", str),
             "provenance": ConjureFieldDefinition(
-                "provenance", OptionalType(TransactionProvenance)
+                "provenance", OptionalTypeWrapper[TransactionProvenance]
             ),
             "record": ConjureFieldDefinition("record", DictType(str, Any)),  # type: ignore
-            "user_id": ConjureFieldDefinition("userId", OptionalType(UserId)),
+            "user_id": ConjureFieldDefinition("userId", OptionalTypeWrapper[UserId]),
         }
 
     __slots__: List[str] = ["_branch_id", "_provenance", "_record", "_user_id"]
@@ -339,10 +338,10 @@ class CloseTransactionRequest(ConjureBeanType):
         return {
             "record": ConjureFieldDefinition("record", DictType(str, Any)),  # type: ignore
             "provenance": ConjureFieldDefinition(
-                "provenance", OptionalType(TransactionProvenance)
+                "provenance", OptionalTypeWrapper[TransactionProvenance]
             ),
             "do_sever_inherited_permissions": ConjureFieldDefinition(
-                "doSeverInheritedPermissions", OptionalType(bool)
+                "doSeverInheritedPermissions", OptionalTypeWrapper[bool]
             ),
         }
 
@@ -376,10 +375,10 @@ class TransactionProvenance(ConjureBeanType):
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
             "provenance_records": ConjureFieldDefinition(
-                "provenanceRecords", ListType(ProvenanceRecord)
+                "provenanceRecords", List[ProvenanceRecord]
             ),
             "non_catalog_provenance_records": ConjureFieldDefinition(
-                "nonCatalogProvenanceRecords", ListType(NonCatalogProvenanceRecord)
+                "nonCatalogProvenanceRecords", List[NonCatalogProvenanceRecord]
             ),
         }
 
@@ -408,19 +407,19 @@ class ProvenanceRecord(ConjureBeanType):
         return {
             "dataset_rid": ConjureFieldDefinition("datasetRid", str),
             "transaction_range": ConjureFieldDefinition(
-                "transactionRange", OptionalType(TransactionRange)
+                "transactionRange", OptionalTypeWrapper[TransactionRange]
             ),
             "schema_branch_id": ConjureFieldDefinition(
-                "schemaBranchId", OptionalType(str)
+                "schemaBranchId", OptionalTypeWrapper[str]
             ),
             "schema_version_id": ConjureFieldDefinition(
-                "schemaVersionId", OptionalType(str)
+                "schemaVersionId", OptionalTypeWrapper[str]
             ),
             "non_catalog_resources": ConjureFieldDefinition(
-                "nonCatalogResources", ListType(str)
+                "nonCatalogResources", List[str]
             ),
             "assumed_markings": ConjureFieldDefinition(
-                "assumedMarkings", ListType(MarkingId)
+                "assumedMarkings", List[MarkingId]
             ),
         }
 
@@ -478,12 +477,12 @@ class NonCatalogProvenanceRecord(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "resources": ConjureFieldDefinition("resources", ListType(str)),
+            "resources": ConjureFieldDefinition("resources", List[str]),
             "assumed_markings": ConjureFieldDefinition(
-                "assumedMarkings", ListType(MarkingId)
+                "assumedMarkings", List[MarkingId]
             ),
             "dependency_type": ConjureFieldDefinition(
-                "dependencyType", OptionalType(DependencyType)
+                "dependencyType", OptionalTypeWrapper[DependencyType]
             ),
         }
 
@@ -566,21 +565,21 @@ class Transaction(ConjureBeanType):
             "status": ConjureFieldDefinition("status", TransactionStatus),
             "file_path_type": ConjureFieldDefinition("filePathType", FilePathType),
             "start_time": ConjureFieldDefinition("startTime", str),
-            "close_time": ConjureFieldDefinition("closeTime", OptionalType(str)),
+            "close_time": ConjureFieldDefinition("closeTime", OptionalTypeWrapper[str]),
             "permission_path": ConjureFieldDefinition(
-                "permissionPath", OptionalType(str)
+                "permissionPath", OptionalTypeWrapper[str]
             ),
             "record": ConjureFieldDefinition(
-                "record", OptionalType(DictType(str, Any))  # type: ignore
+                "record", OptionalTypeWrapper[DictType(str, Any)]  # type: ignore
             ),
             "attribution": ConjureFieldDefinition(
-                "attribution", OptionalType(Attribution)
+                "attribution", OptionalTypeWrapper[Attribution]
             ),
             "is_data_deleted": ConjureFieldDefinition("isDataDeleted", bool),
             "is_deletion_complete": ConjureFieldDefinition("isDeletionComplete", bool),
             "rid": ConjureFieldDefinition("rid", str),
             "provenance": ConjureFieldDefinition(
-                "provenance", OptionalType(TransactionProvenance)
+                "provenance", OptionalTypeWrapper[TransactionProvenance]
             ),
             "dataset_rid": ConjureFieldDefinition("datasetRid", str),
         }
@@ -746,9 +745,9 @@ class FileResourcesPage(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "values": ConjureFieldDefinition("values", ListType(FileResource)),
+            "values": ConjureFieldDefinition("values", List[FileResource]),
             "next_page_token": ConjureFieldDefinition(
-                "nextPageToken", OptionalType(str)
+                "nextPageToken", OptionalTypeWrapper[str]
             ),
         }
 
@@ -773,10 +772,12 @@ class FileResource(ConjureBeanType):
         return {
             "logical_path": ConjureFieldDefinition("logicalPath", str),
             "physical_path": ConjureFieldDefinition("physicalPath", str),
-            "physical_uri": ConjureFieldDefinition("physicalUri", OptionalType(str)),
+            "physical_uri": ConjureFieldDefinition(
+                "physicalUri", OptionalTypeWrapper[str]
+            ),
             "transaction_rid": ConjureFieldDefinition("transactionRid", str),
             "file_metadata": ConjureFieldDefinition(
-                "fileMetadata", OptionalType(FileMetadata)
+                "fileMetadata", OptionalTypeWrapper[FileMetadata]
             ),
             "is_open": ConjureFieldDefinition("isOpen", bool),
             "time_modified": ConjureFieldDefinition("timeModified", str),
@@ -858,9 +859,11 @@ class CreateDatasetRequest(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "file_system_id": ConjureFieldDefinition("fileSystemId", OptionalType(str)),
+            "file_system_id": ConjureFieldDefinition(
+                "fileSystemId", OptionalTypeWrapper[str]
+            ),
             "path": ConjureFieldDefinition("path", str),
-            "markings": ConjureFieldDefinition("markings", ListType(MarkingId)),
+            "markings": ConjureFieldDefinition("markings", List[MarkingId]),
         }
 
     __slots__: List[str] = ["_file_system_id", "_path", "_markings"]
@@ -910,9 +913,9 @@ class CreateBranchRequest(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "parent_ref": ConjureFieldDefinition("parentRef", OptionalType(str)),
+            "parent_ref": ConjureFieldDefinition("parentRef", OptionalTypeWrapper[str]),
             "parent_branch_id": ConjureFieldDefinition(
-                "parentBranchId", OptionalType(str)
+                "parentBranchId", OptionalTypeWrapper[str]
             ),
         }
 
@@ -938,11 +941,11 @@ class Branch(ConjureBeanType):
             "id": ConjureFieldDefinition("id", str),
             "rid": ConjureFieldDefinition("rid", str),
             "ancestor_branch_ids": ConjureFieldDefinition(
-                "ancestorBranchIds", ListType(str)
+                "ancestorBranchIds", List[str]
             ),
             "creation_time": ConjureFieldDefinition("creationTime", str),
             "transaction_rid": ConjureFieldDefinition(
-                "transactionRid", OptionalType(str)
+                "transactionRid", OptionalTypeWrapper[str]
             ),
         }
 

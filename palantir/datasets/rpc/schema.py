@@ -12,19 +12,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from typing import Optional, Mapping, Any, Dict, List
+
 from conjure_python_client import (
     Service,
     ConjureEncoder,
     ConjureDecoder,
-    ListType,
-    OptionalType,
     ConjureBeanType,
     ConjureFieldDefinition,
     DictType,
     ConjureEnumType,
+    OptionalTypeWrapper,
 )
 from requests import Response
-from typing import Optional, Mapping, Any, Dict, List
 
 
 class SchemaService(Service):
@@ -90,11 +90,11 @@ class SchemaService(Service):
                 schema=FoundrySchema(
                     field_schema_list=_decoder.decode(
                         _response.json().get("schema").get("fieldSchemaList"),
-                        ListType(FoundryFieldSchema),
+                        List[FoundryFieldSchema],
                     ),
                     primary_key=_decoder.decode(
                         _response.json().get("schema").get("primaryKey"),
-                        OptionalType(PrimaryKey),
+                        OptionalTypeWrapper[PrimaryKey],
                     ),
                     data_frame_reader_class=_response.json()
                     .get("schema")
@@ -124,7 +124,7 @@ class VersionedFoundrySchema(ConjureBeanType):
             "version_id": ConjureFieldDefinition("versionId", str),
             "schema": ConjureFieldDefinition("schema", FoundrySchema),
             "attribution": ConjureFieldDefinition(
-                "attribution", OptionalType(Attribution)
+                "attribution", OptionalTypeWrapper[Attribution]
             ),
         }
 
@@ -170,10 +170,10 @@ class FoundrySchema(ConjureBeanType):
         return {
             "field_schema_list": ConjureFieldDefinition(
                 "fieldSchemaList",
-                ListType(FoundryFieldSchema),
+                List[FoundryFieldSchema],
             ),
             "primary_key": ConjureFieldDefinition(
-                "primaryKey", OptionalType(PrimaryKey)
+                "primaryKey", OptionalTypeWrapper[PrimaryKey]
             ),
             "data_frame_reader_class": ConjureFieldDefinition(
                 "dataFrameReaderClass", str
@@ -216,7 +216,7 @@ class PrimaryKey(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "columns": ConjureFieldDefinition("columns", ListType(str)),
+            "columns": ConjureFieldDefinition("columns", List[str]),
         }
 
     __slots__ = ["_columns"]
@@ -234,30 +234,30 @@ class FoundryFieldSchema(ConjureBeanType):
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
             "type": ConjureFieldDefinition("type", FoundryFieldType),
-            "name": ConjureFieldDefinition("name", OptionalType(str)),
-            "nullable": ConjureFieldDefinition("nullable", OptionalType(bool)),
+            "name": ConjureFieldDefinition("name", OptionalTypeWrapper[str]),
+            "nullable": ConjureFieldDefinition("nullable", OptionalTypeWrapper[bool]),
             "user_defined_type_class": ConjureFieldDefinition(
-                "userDefinedTypeClass", OptionalType(str)
+                "userDefinedTypeClass", OptionalTypeWrapper[str]
             ),
             "custom_metadata": ConjureFieldDefinition(
                 "customMetadata", DictType(str, Any)  # type: ignore
             ),
             "array_subtype": ConjureFieldDefinition(
                 "arraySubtype",
-                OptionalType(FoundryFieldSchema),
+                OptionalTypeWrapper[FoundryFieldSchema],
             ),
-            "precision": ConjureFieldDefinition("precision", OptionalType(int)),
-            "scale": ConjureFieldDefinition("scale", OptionalType(int)),
+            "precision": ConjureFieldDefinition("precision", OptionalTypeWrapper[int]),
+            "scale": ConjureFieldDefinition("scale", OptionalTypeWrapper[int]),
             "map_key_type": ConjureFieldDefinition(
-                "mapKeyType", OptionalType(FoundryFieldSchema)
+                "mapKeyType", OptionalTypeWrapper[FoundryFieldSchema]
             ),
             "map_value_type": ConjureFieldDefinition(
                 "mapValueType",
-                OptionalType(FoundryFieldSchema),
+                OptionalTypeWrapper[FoundryFieldSchema],
             ),
             "sub_schemas": ConjureFieldDefinition(
                 "subSchemas",
-                ListType(FoundryFieldSchema),
+                List[FoundryFieldSchema],
             ),
         }
 
