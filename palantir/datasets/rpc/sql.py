@@ -22,10 +22,9 @@ from conjure_python_client import (
     ConjureDecoder,
     ConjureBeanType,
     ConjureFieldDefinition,
-    OptionalType,
-    ListType,
     ConjureEnumType,
     ConjureUnionType,
+    OptionalTypeWrapper,
 )
 
 
@@ -120,9 +119,11 @@ class SqlExecuteRequest(ConjureBeanType):
                 "serializationProtocol", SerializationProtocol
             ),
             "fallback_branch_ids": ConjureFieldDefinition(
-                "fallbackBranchIds", ListType(str)
+                "fallbackBranchIds", List[str]
             ),
-            "timeout": ConjureFieldDefinition("timeout", OptionalType(TimeoutInMillis)),
+            "timeout": ConjureFieldDefinition(
+                "timeout", OptionalTypeWrapper[TimeoutInMillis]
+            ),
         }
 
     __slots__: List[str] = [
@@ -306,7 +307,9 @@ class FailedQueryStatus(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "error_message": ConjureFieldDefinition("errorMessage", OptionalType(str)),
+            "error_message": ConjureFieldDefinition(
+                "errorMessage", OptionalTypeWrapper[str]
+            ),
             "failure_reason": ConjureFieldDefinition("failureReason", FailureReason),
         }
 

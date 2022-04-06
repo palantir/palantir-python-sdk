@@ -23,7 +23,6 @@ from conjure_python_client import (
     ConjureUnionType,
     ConjureDecoder,
     ConjureEncoder,
-    ListType,
 )
 from requests import Response
 
@@ -173,7 +172,7 @@ class StartConcatenationTaskRequest(ConjureBeanType):
     @classmethod
     def _fields(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
-            "source_paths": ConjureFieldDefinition("sourcePaths", ListType(str)),
+            "source_paths": ConjureFieldDefinition("sourcePaths", List[str]),
             "destination_path": ConjureFieldDefinition("destinationPath", str),
         }
 

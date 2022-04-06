@@ -9,9 +9,7 @@ include = ["palantir/_version.py"]
 [tool.poetry.dependencies]
 python = "^3.8"
 tomli = "^2.0.1"
-requests = "^2.27.1"
-conjure-python-client = "^2.0.0"
-pytest = "^7.1.0"
+conjure-python-client = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
@@ -21,7 +19,7 @@ pandas = "^1.4.1"
 pytest = "^7.0.1"
 pytest-mockito = "^0.0.4"
 tox = "^3.24.5"
-mypy = "^0.931"
+mypy = "^0.942"
 pylint = "^2.12.2"
 pyarrow = "^7.0.0"
 types-requests = "^2.27.11"
