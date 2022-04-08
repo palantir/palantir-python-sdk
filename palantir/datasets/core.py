@@ -217,13 +217,13 @@ class Transaction:
         Writes content to a file in the transaction.
 
         Args:
-            path: The logical path of the file in the dataset to write to.
+            path: The path of the file to write to.
             content: The binary content to upload.
         """
-        file = File(
-            dataset=self.dataset,
-            path=path,
-            client=self.client,
+        file = FileLocator(
+            dataset_rid=self.dataset.rid,
+            end_ref=str(self.rid),
+            logical_path=path,
         )
         self.client.put_file(file, content)
 
