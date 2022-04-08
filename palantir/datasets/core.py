@@ -212,18 +212,18 @@ class Transaction:
         self.client.abort_transaction(self)
         self.status = TransactionStatus.ABORTED
 
-    def write(self, path: str, content: bytes) -> None:
+    def write(self, logical_path: str, content: bytes) -> None:
         """
         Writes content to a file in the transaction.
 
         Args:
-            path: The logical path of the file in the dataset to write to.
+            logical_path: The logical path of the file in the dataset to write to.
             content: The binary content to upload.
         """
-        file = File(
-            dataset=self.dataset,
-            path=path,
-            client=self.client,
+        file = FileLocator(
+            dataset_rid=self.dataset.rid,
+            end_ref=str(self.rid),
+            logical_path=logical_path,
         )
         self.client.put_file(file, content)
 
