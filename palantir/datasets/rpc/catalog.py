@@ -570,7 +570,7 @@ class Transaction(ConjureBeanType):
                 "permissionPath", OptionalTypeWrapper[str]
             ),
             "record": ConjureFieldDefinition(
-                "record", OptionalTypeWrapper[DictType(str, Any)]  # type: ignore
+                "record", OptionalTypeWrapper[dict]  # type: ignore
             ),
             "attribution": ConjureFieldDefinition(
                 "attribution", OptionalTypeWrapper[Attribution]
