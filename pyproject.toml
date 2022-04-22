@@ -2,9 +2,11 @@
 name = "palantir-sdk"
 version = "0.0.0"  # placeholder, updated by git describe during publish
 description = "Palantir Python SDK"
+license = "Apache-2.0"
 authors = ["Andrew Higgins <ahiggins@palantir.com>"]
 packages = [{include = "palantir"}]
 include = ["palantir/_version.py"]
+homepage = "https://github.com/palantir/palantir-python-sdk"
 
 [tool.poetry.dependencies]
 python = "^3.8"
