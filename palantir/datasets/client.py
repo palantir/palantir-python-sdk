@@ -411,7 +411,9 @@ class DatasetsClient:
         self,
         locator: DatasetLocator,
     ) -> "pa.Table":
-        query = SqlQuery(f'SELECT * FROM "{locator.branch_id}"."{locator.rid}"')
+        if locator.end_transaction_rid is None:
+            return
+        query = SqlQuery(f'SELECT * FROM "{locator.end_transaction_rid}"."{locator.rid}"')
         response = self._sql_query_service.execute(
             auth_header=self.ctx.auth_token,
             request=SqlExecuteRequest(
