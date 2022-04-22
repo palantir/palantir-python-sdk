@@ -412,18 +412,19 @@ class DatasetsClient:
         locator: DatasetLocator,
     ) -> "pa.Table":
         if locator.end_transaction_rid is None:
-            return
-        query = SqlQuery(f'SELECT * FROM "{locator.end_transaction_rid}"."{locator.rid}"')
-        response = self._sql_query_service.execute(
-            auth_header=self.ctx.auth_token,
-            request=SqlExecuteRequest(
-                dialect=SqlDialect.ANSI,  # type: ignore
-                fallback_branch_ids=[],
-                query=query,
-                serialization_protocol=SerializationProtocol.ARROW,  # type: ignore
-            ),
-        )
-        query_status = response.status
+            raise ValueError("read failed. unresolved end transaction rid")
+        else:
+            query = SqlQuery(f'SELECT * FROM "{locator.end_transaction_rid}"."{locator.rid}"')
+            response = self._sql_query_service.execute(
+                auth_header=self.ctx.auth_token,
+                request=SqlExecuteRequest(
+                    dialect=SqlDialect.ANSI,  # type: ignore
+                    fallback_branch_ids=[],
+                    query=query,
+                    serialization_protocol=SerializationProtocol.ARROW,  # type: ignore
+                ),
+            )
+            query_status = response.status
 
         while not query_status.accept(_IsQueryStatusTerminalVisitor()):
             sleep(1)
