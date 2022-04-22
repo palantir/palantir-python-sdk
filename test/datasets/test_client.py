@@ -795,7 +795,7 @@ class TestFoundryClient:
                 dialect=SqlDialect.ANSI,  # type: ignore
                 fallback_branch_ids=[],
                 query=SqlQuery(
-                    f'SELECT * FROM "{self.BRANCH_ID}"."{self.DATASET_RID}"'
+                    f'SELECT * FROM "{self.END_TRANSACTION_RID}"."{self.DATASET_RID}"'
                 ),
                 serialization_protocol=SerializationProtocol.ARROW,  # type: ignore
             ),
