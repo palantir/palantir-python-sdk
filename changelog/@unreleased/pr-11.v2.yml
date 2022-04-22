@@ -1,5 +1,5 @@
 type: improvement
 improvement:
-  description: Replace branch name with transaction RID
+  description: Replace branch name with transaction RID when reading a dataset
   links:
   - https://github.com/palantir/palantir-python-sdk/pull/11
