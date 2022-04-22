@@ -1,0 +1,8 @@
+type: improvement
+improvement:
+  description: |-
+    Read dataset with the end transaction RID
+
+    Replace branch name with transaction RID. Solves Containers issue where transaction RID is necessary to register inputs in provenance.
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/11
