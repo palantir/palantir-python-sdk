@@ -1,0 +1,8 @@
+type: fix
+fix:
+  description: |-
+    Add branch ID to the read dataset query
+
+    Fixes error thrown when just using end transaction RID
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/14
