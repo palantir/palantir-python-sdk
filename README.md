@@ -12,7 +12,7 @@ This SDK is incubating and subject to change.
 pip install palantir-sdk
 ```
 
-Configuration for hostname and an authentication token are provided by environment variables (`FOUNDRY_HOSTNAME`, `FOUNDRY_TOKEN`)
+Configuration for hostname and an authentication token are provided by environment variables (`PALANTIR_HOSTNAME`, `PALANTIR_TOKEN`)
 
 * `PALANTIR_HOSTNAME` is the hostname of your instance e.g. `example.palantirfoundry.com`
 * `PALANTIR_TOKEN` is a token acquired from the `Tokens` section of Foundry Settings 
