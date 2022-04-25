@@ -415,7 +415,7 @@ class DatasetsClient:
             raise ValueError("read failed. unresolved end transaction rid")
 
         query = SqlQuery(
-            f'SELECT * FROM "{locator.end_transaction_rid}"."{locator.rid}"'
+            f'SELECT * FROM "{locator.end_transaction_rid}"@"{locator.branch_id}".{locator.rid}"'
         )
         response = self._sql_query_service.execute(
             auth_header=self.ctx.auth_token,
