@@ -1,0 +1,5 @@
+type: fix
+fix:
+  description: Remove unnecessary quotes separating transaction and branch
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/16
