@@ -12,6 +12,12 @@ This SDK is incubating and subject to change.
 pip install palantir-sdk
 ```
 
+```commandline
+conda config --add channels conda-forge  # add conda-forge channel if not already enabled
+conda install palantir-sdk
+mamba install palantir-sdk  # alternatively install with mamba
+```
+
 Configuration for hostname and an authentication token are provided by environment variables (`PALANTIR_HOSTNAME`, `PALANTIR_TOKEN`)
 
 * `PALANTIR_HOSTNAME` is the hostname of your instance e.g. `example.palantirfoundry.com`
@@ -114,7 +120,7 @@ dataset("ri.foundry.main.dataset.a0a94f00-754e-49ff-a4f6-4f5cc200d45d") \
 
 ## Contributing
 
-See the [CONTRIBUTING.md](./CONTRIBUTING.md) document.  Releases are published to [pypi](https://pypi.org/project/conjure-python-client/) on tag builds and are automatically re-published to [conda](https://anaconda.org/conda-forge/conjure-python-client) using [conda-forge](https://github.com/conda-forge/conjure-python-client-feedstock/).
+See the [CONTRIBUTING.md](./CONTRIBUTING.md) document.  Releases are published to [pypi](https://pypi.org/project/palantir-sdk/) on tag builds and are automatically re-published to [conda](https://anaconda.org/conda-forge/palantir-sdk) using [conda-forge](https://github.com/conda-forge/palantir-sdk-feedstock/).
 
 ## License
 This project is made available under the [Apache 2.0 License](/LICENSE).
