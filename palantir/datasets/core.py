@@ -131,13 +131,12 @@ class Dataset:
         Examples:
             >>> from palantir.datasets import dataset
             >>> ds = dataset("/path/to/dataset")
-            ... with ds.start_transaction():
-            ...     ds.file("file.txt").write(b"file content")
-
+            ... with ds.start_transaction() as txn:
+            ...     txn.write("file.txt", b"file content")
 
             >>> ds = dataset("/path/to/dataset")
-            ... with ds.start_transaction('SNAPSHOT'):
-            ...     ds.file("file.txt").write(b"file content")
+            ... with ds.start_transaction('SNAPSHOT') as txn:
+            ...     txn.write("file.txt", b"file content")
         """
         _txn_type = (
             txn_type
