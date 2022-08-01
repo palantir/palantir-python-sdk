@@ -63,5 +63,7 @@ def page_results(values_extractor, token_extractor, page_supplier, page_token=No
 
 
 def format_path_with_params(path, path_params):
-    escaped_path_params = {k: requests.utils.quote(v, safe='') for k,v in path_params.items()}
+    escaped_path_params = {
+        k: requests.utils.quote(v, safe="") for k, v in path_params.items()
+    }
     return path.format(**escaped_path_params)
