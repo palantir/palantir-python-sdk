@@ -24,7 +24,6 @@ from conjure_python_client import (
     ConjureEnumType,
     OptionalTypeWrapper,
 )
-
 from palantir.core.util import format_path_with_params
 
 
