@@ -21,6 +21,7 @@ from conjure_python_client import (
     ConjureFieldDefinition,
     OptionalTypeWrapper,
 )
+from palantir.core.util import format_path_with_params
 
 
 class PathService(Service):
@@ -42,7 +43,7 @@ class PathService(Service):
         _json = None
 
         _path = "/resources"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "GET", self._uri + _path, params=_params, headers=_headers, json=_json

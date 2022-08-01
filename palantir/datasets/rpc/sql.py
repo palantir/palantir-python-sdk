@@ -26,6 +26,7 @@ from conjure_python_client import (
     ConjureUnionType,
     OptionalTypeWrapper,
 )
+from palantir.core.util import format_path_with_params
 
 
 class SqlQueryService(Service):
@@ -45,7 +46,7 @@ class SqlQueryService(Service):
         _json = ConjureEncoder().default(request)
 
         _path = "/queries/execute"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -69,7 +70,7 @@ class SqlQueryService(Service):
         _json: Any = None
 
         _path = "/queries/{queryId}/status"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(  # type: ignore
             "GET", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -93,7 +94,7 @@ class SqlQueryService(Service):
         _json: Any = None
 
         _path = "/queries/{queryId}/results"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(  # type: ignore
             "GET",
