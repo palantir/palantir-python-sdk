@@ -25,7 +25,7 @@ from conjure_python_client import (
     OptionalTypeWrapper,
 )
 from requests import Response
-from palantir.core.util import format_path_with_params
+from .util import format_path_with_params
 
 
 class SchemaService(Service):

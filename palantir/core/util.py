@@ -15,7 +15,6 @@
 from dataclasses import fields
 
 from typing import Any, Dict
-import requests
 
 
 def dataclass_from_dict(klass: Any, dikt: Dict[str, Any]):
@@ -60,10 +59,3 @@ def page_results(values_extractor, token_extractor, page_supplier, page_token=No
                 yield value
 
     return process_page(page_supplier(page_token))
-
-
-def format_path_with_params(path, path_params):
-    escaped_path_params = {
-        k: requests.utils.quote(v, safe="") for k, v in path_params.items()
-    }
-    return path.format(**escaped_path_params)

@@ -21,7 +21,7 @@ from conjure_python_client import (
     ConjureFieldDefinition,
     OptionalTypeWrapper,
 )
-from palantir.core.util import format_path_with_params
+from .util import format_path_with_params
 
 
 class PathService(Service):
