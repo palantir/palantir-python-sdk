@@ -1,0 +1,5 @@
+type: fix
+fix:
+  description: Encode path parameters in rpc calls.
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/21

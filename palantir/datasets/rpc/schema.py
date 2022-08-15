@@ -25,6 +25,7 @@ from conjure_python_client import (
     OptionalTypeWrapper,
 )
 from requests import Response
+from .util import format_path_with_params
 
 
 class SchemaService(Service):
@@ -45,7 +46,12 @@ class SchemaService(Service):
 
         _json: Any = ConjureEncoder.do_encode(schema)
 
-        _path = f"/schemas/datasets/{dataset_rid}/branches/{branch_id}"
+        _path_params: Dict[str, Any] = {
+            "datasetRid": dataset_rid,
+            "branchId": branch_id,
+        }
+        _path = "/schemas/datasets/{datasetRid}/branches/{branchId}"
+        _path = format_path_with_params(_path, _path_params)
 
         _response: Response = self._request(
             "POST",
@@ -73,7 +79,12 @@ class SchemaService(Service):
             "versionId": version_rid,
         }
 
-        _path = f"/schemas/datasets/{dataset_rid}/branches/{branch_id}"
+        _path_params: Dict[str, Any] = {
+            "datasetRid": dataset_rid,
+            "branchId": branch_id,
+        }
+        _path = "/schemas/datasets/{datasetRid}/branches/{branchId}"
+        _path = format_path_with_params(_path, _path_params)
 
         _response: Response = self._request(
             "GET", self._uri + _path, params=_params, headers=_headers

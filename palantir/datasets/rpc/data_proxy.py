@@ -25,6 +25,7 @@ from conjure_python_client import (
     ConjureEncoder,
 )
 from requests import Response
+from .util import format_path_with_params
 
 
 class DataProxyService(Service):
@@ -55,7 +56,7 @@ class DataProxyService(Service):
         _json = None
 
         _path = "/dataproxy/datasets/{datasetRid}/views/{endRef}/{logicalPath}"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response: Response = self._request(
             "GET",
@@ -95,7 +96,7 @@ class DataProxyService(Service):
             "transactionRid": transaction_rid,
         }
         _path = "/dataproxy/datasets/{datasetRid}/transactions/{transactionRid}/putFile"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, data=file_data
@@ -131,7 +132,7 @@ class DataProxyConcatenationService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/concatenation-tasks/datasets/{datasetRid}/transactions/{transactionRid}/start"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -158,7 +159,7 @@ class DataProxyConcatenationService(Service):
         _json: Any = None
 
         _path = "/concatenation-tasks/tasks/{concatenationTaskId}/status-report"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "GET", self._uri + _path, params=_params, headers=_headers, json=_json

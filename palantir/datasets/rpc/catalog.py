@@ -24,6 +24,7 @@ from conjure_python_client import (
     ConjureEnumType,
     OptionalTypeWrapper,
 )
+from .util import format_path_with_params
 
 
 class CatalogService(Service):
@@ -43,7 +44,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/catalog/datasets"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -75,7 +76,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/catalog/datasets/{datasetRid}/branchesUnrestricted2/{branchId}"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -110,7 +111,7 @@ class CatalogService(Service):
         _json = None
 
         _path = "/catalog/datasets/{datasetRid}/views2/{endRef}/range"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "GET", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -161,7 +162,7 @@ class CatalogService(Service):
         _json = None
 
         _path = "/catalog/datasets/{datasetRid}/views2/{endRef}/files"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "GET", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -189,7 +190,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/catalog/datasets/{datasetRid}/transactions"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -221,7 +222,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(txn_type)
 
         _path = "/catalog/datasets/{datasetRid}/transactions/{transactionRid}"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -253,7 +254,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/catalog/datasets/{datasetRid}/transactions/{transactionRid}/commit"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
@@ -282,7 +283,7 @@ class CatalogService(Service):
         _json: Any = ConjureEncoder().default(request)
 
         _path = "/catalog/datasets/{datasetRid}/transactions/{transactionRid}/abortWithMetadata"
-        _path = _path.format(**_path_params)
+        _path = format_path_with_params(_path, _path_params)
 
         _response = self._request(
             "POST", self._uri + _path, params=_params, headers=_headers, json=_json
