@@ -276,7 +276,7 @@ class File:
 
     def read(self) -> io.IOBase:
         """Returns: A binary stream of the file content."""
-        return self.client.read_file(self.locator()).read()
+        return self.client.read_file(self.locator())
 
     def write(
         self,

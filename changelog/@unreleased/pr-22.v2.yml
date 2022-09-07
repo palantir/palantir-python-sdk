@@ -1,0 +1,6 @@
+type: break
+break:
+  description: |-
+    Return an IOBase object in file.read() instead of reading all bytes
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/22
