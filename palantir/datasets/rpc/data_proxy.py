@@ -235,6 +235,11 @@ class ConcatenationTaskStatusReport(ConjureBeanType):
 
 
 class ConcatenationTaskStatus(ConjureUnionType):
+    _success: Optional["ConcatenationTaskSuccess"] = None
+    _failure: Optional["ConcatenationTaskFailure"] = None
+    _queued: Optional["ConcatenationTaskQueued"] = None
+    _in_progress: Optional["ConcatenationTaskInProgress"] = None
+
     @classmethod
     def _options(cls) -> Dict[str, ConjureFieldDefinition]:
         return {
@@ -246,7 +251,13 @@ class ConcatenationTaskStatus(ConjureUnionType):
             ),
         }
 
-    def __init__(self, success=None, failure=None, queued=None, in_progress=None):
+    def __init__(
+        self,
+        success: Optional["ConcatenationTaskSuccess"] = None,
+        failure: Optional["ConcatenationTaskFailure"] = None,
+        queued: Optional["ConcatenationTaskQueued"] = None,
+        in_progress: Optional["ConcatenationTaskInProgress"] = None
+    ):
         if (success is not None) + (failure is not None) + (queued is not None) + (
             in_progress is not None
         ) != 1:
