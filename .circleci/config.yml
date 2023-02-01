@@ -10,7 +10,7 @@ version: 2
 jobs:
   py38:
     docker:
-      - image: cimg/python:3.8.12
+      - image: cimg/python:3.8.16
     steps:
       - checkout
 
@@ -41,7 +41,7 @@ jobs:
 
   py39:
     docker:
-      - image: cimg/python:3.9.10
+      - image: cimg/python:3.9.16
     steps:
       - checkout
 
@@ -72,7 +72,7 @@ jobs:
 
   py310:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.9
     steps:
       - checkout
 
@@ -103,7 +103,7 @@ jobs:
 
   pylint:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.9
     steps:
       - checkout
 
@@ -122,11 +122,11 @@ jobs:
           name: Setup Tox Environment
           command: if [ ! -d ".tox" ]; then python -m tox -e pylint --notest; fi
 
-      - run: env LC_ALL=C.UTF-8 LANG=C.UTF-8 LANGUAGE=C.UTF-8 python -m tox -e pylint --recreate
+      - run: python -m tox -e pylint --recreate
 
   black:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.9
     steps:
       - checkout
 
@@ -150,7 +150,7 @@ jobs:
 
   mypy:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.9
     steps:
       - checkout
 
@@ -173,7 +173,7 @@ jobs:
 
   publish:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.9
     steps:
       - checkout
 
