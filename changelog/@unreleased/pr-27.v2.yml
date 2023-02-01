@@ -1,0 +1,5 @@
+type: fix
+fix:
+  description: Handle pandas DataFrames without index 0
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/27
