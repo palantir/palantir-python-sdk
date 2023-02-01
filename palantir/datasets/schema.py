@@ -56,7 +56,7 @@ def _get_field(  # pylint: disable=too-many-return-statements,too-many-branches
         return Field(
             name=name,
             field_type=ArrayFieldType(
-                element_type=_get_field(None, pd.Series(obj[0])).type
+                element_type=_get_field(None, pd.Series(obj[obj.index[0]])).type
             ),
         )
     if pd.api.types.is_bool_dtype(dtype):
@@ -78,7 +78,7 @@ def _get_field(  # pylint: disable=too-many-return-statements,too-many-branches
     if pd.api.types.is_datetime64_dtype(dtype):
         return Field(name, TimestampFieldType())
     if pd.api.types.is_object_dtype(dtype):
-        if isinstance(obj[0], date):
+        if isinstance(obj[obj.index[0]], date):
             return Field(name, DateFieldType())
         if pd.api.types.is_string_dtype(dtype):
             return Field(name, StringFieldType())
