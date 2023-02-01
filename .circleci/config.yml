@@ -122,7 +122,7 @@ jobs:
           name: Setup Tox Environment
           command: if [ ! -d ".tox" ]; then python -m tox -e pylint --notest; fi
 
-      - run: python -m tox -e pylint --recreate
+      - run: env LC_ALL=C.UTF-8 LANG=C.UTF-8 LANGUAGE=C.UTF-8 python -m tox -e pylint --recreate
 
   black:
     docker:
