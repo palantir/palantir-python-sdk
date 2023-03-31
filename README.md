@@ -1,4 +1,4 @@
-# Palantir Python SDK
+# Palantir Foundry SDK
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/palantir-sdk)
 [![PyPI](https://img.shields.io/pypi/v/palantir-sdk)](https://pypi.org/project/palantir-sdk/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -6,33 +6,75 @@
 
 This SDK is incubating and subject to change.
 
-## Setup
+## Quickstart
 
-```commandline
-pip install palantir-sdk
-```
+Instantiate a FoundryClient to access operations in the SDK.
 
-```commandline
-conda config --add channels conda-forge  # add conda-forge channel if not already enabled
-conda install palantir-sdk
-mamba install palantir-sdk  # alternatively install with mamba
-```
+Configuration for hostname and an authentication token are provided by environment variables (`FOUNDRY_HOSTNAME`, `FOUNDRY_TOKEN`)
 
-Configuration for hostname and an authentication token are provided by environment variables (`PALANTIR_HOSTNAME`, `PALANTIR_TOKEN`)
+* `FOUNDRY_HOSTNAME` is the hostname of your instance e.g. `example.palantirfoundry.com`
+* `FOUNDRY_TOKEN` is a token acquired from the `Tokens` section of Foundry Settings
 
-* `PALANTIR_HOSTNAME` is the hostname of your instance e.g. `example.palantirfoundry.com`
-* `PALANTIR_TOKEN` is a token acquired from the `Tokens` section of Foundry Settings 
- 
 Authentication tokens serve as a private password and allows a connection to Foundry data. Keep your token secret and do not share it with anyone else. Do not add a token to a source controlled or shared file.
+
+
+```python
+from foundry import FoundryClient
+
+client = FoundryClient()
+
+my_dataset = client.datasets.Dataset.get(...)
+```
+
+You can alternatively pass in the hostname and token as keyword arguments when initializing the FoundryClient.
+
 
 ## Examples
 
+### Read a Foundry Dataset as a table
+```python
+Dataset = client.datasets.Dataset
+
+# Create dataset
+my_dataset = Dataset.create(name="...", parent_folder_rid="...")
+
+# Get dataset
+my_dataset = Dataset.get(dataset_rid="...")
+
+# Read dataset as table
+with open("my_table.csv", "wb") as f:
+    f.write(Dataset.read_table(dataset_rid="...", format="CSV", columns=[...]))
+```
+
+
+### Manipulate a Dataset within a Transaction
+```python
+my_transaction = client.datasets.Transaction.create(dataset_rid="...")
+
+with open("my/path/to/file.txt", 'rb') as f:
+    client.datasets.File.upload(data=f.read(), dataset_rid="....", file_path="...")
+
+client.datasets.Transaction.commit(dataset_rid="...", transaction_rid=my_transaction.rid)
+```
+
+### Read the contents of a file from a dataset (by exploration / listing)
+```python
+files = list(client.datasets.File.iterate(dataset_rid="..."))
+
+file_path = files[0].path
+
+client.datasets.File.get_content(dataset_rid = "...", file_path=file_path).read()
+```
+```
+b'Hello!'
+```
+
 ### Read a Foundry Dataset into a Pandas DataFrame
 ```python
-from palantir.datasets import dataset
+import pyarrow as pa
 
-dataset("/Path/to/dataset") \
-    .read_pandas()
+stream = client.datasets.Dataset.read_table(dataset_rid="...")
+df = pa.ipc.open_stream(stream).read_all().to_pandas()
 ```
 
 ```
@@ -52,71 +94,6 @@ dataset("/Path/to/dataset") \
 [235886 rows x 5 columns]
 ```
 
-### Write a Pandas DataFrame to a Foundry Dataset
-```python
-import pandas as pd
-from palantir.datasets import dataset
-
-df = pd.DataFrame({
-    "string": ["one", "two"],
-    "integer": [1, 2]
-})
-
-ds = dataset(f"/Path/to/dataset", create=True)
-ds.write_pandas(df)
-```
-
-### List files in a Dataset
-```python
-from palantir.datasets import dataset
-
-files = dataset("/Path/to/dataset") \
-    .list_files() # returns a generator over pages of files
-
-list(files)
-```
-
-```
-[
-    File("ri.foundry.main.dataset.2ed83c69-e87e-425e-9a1c-03b77b5b0831", "file.txt")
-]
-```
-
-### Read the contents of a file from a dataset (by name)
-```python
-from palantir.datasets import dataset
-
-dataset("/Path/to/dataset") \
-    .file("file.txt") \
-    .read()
-```
-```python
-b'Hello!'
-```
-
-### Read the contents of a file from a dataset (by exploration / listing)
-```python
-from palantir.datasets import dataset
-
-files = dataset("/Path/to/dataset").list_files()
-next(files).read()
-```
-```
-b'Hello!'
-```
-
-### Dataset functions also accept Resource Identifiers (rids)
-```python
-from palantir.datasets import dataset
-
-dataset("ri.foundry.main.dataset.a0a94f00-754e-49ff-a4f6-4f5cc200d45d") \
-    .read_pandas()
-```
-```
-  string  integer
-0    one        1
-1    two        2
-```
 
 ## Contributing
 

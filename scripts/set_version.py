@@ -20,7 +20,7 @@ try:
         .strip()
         .replace("-", "_")
     )
-    open("palantir/_version.py", "w").write('__version__ = "{}"\n'.format(gitversion))
+    open("foundry/_version.py", "w").write('__version__ = "{}"\n\n__codegen_version__ = "0.207.0"'.format(gitversion))
 except subprocess.CalledProcessError:
     print("outside git repo, not generating new version string")
-exec(open("palantir/_version.py").read())
+exec(open("foundry/_version.py").read())

@@ -1,0 +1,2 @@
+class EnvironmentNotConfigured(Exception):
+    pass

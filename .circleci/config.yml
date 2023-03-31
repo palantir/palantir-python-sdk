@@ -18,8 +18,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py
@@ -49,8 +53,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py
@@ -80,8 +88,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py
@@ -111,8 +123,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py
@@ -134,8 +150,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py
@@ -158,8 +178,12 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
+          name: Install Tox
           command: pip install --user tox
+
+      - run:
+          name: Install Dependencies
+          command: pip install .
 
       - run:
           name: Generate _version.py

@@ -3,9 +3,9 @@ name = "palantir-sdk"
 version = "0.0.0"  # placeholder, updated by git describe during publish
 description = "Palantir Python SDK"
 license = "Apache-2.0"
-authors = ["Andrew Higgins <ahiggins@palantir.com>"]
-packages = [{include = "palantir"}]
-include = ["palantir/_version.py"]
+authors = ["Matthew Bayer <matthewbayer@palantir.com>", "Andrew Higgins <ahiggins@palantir.com>"]
+packages = [{include = "foundry"}]
+include = ["foundry/_version.py"]
 homepage = "https://github.com/palantir/palantir-python-sdk"
 
 [tool.poetry.dependencies]
@@ -15,15 +15,9 @@ conjure-python-client = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
-expects = "^0.9.0"
-mockito = "^1.3.0"
-pandas = "^1.4.1"
-pytest = "^7.0.1"
-pytest-mockito = "^0.0.4"
 tox = "^3.24.5"
 mypy = "^0.981"
-pylint = "^2.12.2"
-pyarrow = "^7.0.0"
+requests = "^2.7.0"
 types-requests = "^2.27.11"
 types-python-dateutil = "^2.8.9"
 
