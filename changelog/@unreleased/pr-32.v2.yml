@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Python SDK Version 0.12
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/32
