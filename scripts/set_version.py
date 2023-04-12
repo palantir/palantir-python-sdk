@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+import ast
 import subprocess
 
 try:
@@ -20,7 +21,13 @@ try:
         .strip()
         .replace("-", "_")
     )
-    open("palantir/_version.py", "w").write('__version__ = "{}"\n'.format(gitversion))
-except subprocess.CalledProcessError:
-    print("outside git repo, not generating new version string")
-exec(open("palantir/_version.py").read())
+except subprocess.CalledProcessError as exc:
+    raise Exception("outside git repo, not generating new version string") from exc
+
+file_content = f"__version__ = {repr(gitversion)}\n"
+
+# raise error if the syntax of the generated file is incorrect:
+x = ast.parse(file_content)
+
+with open("palantir/_version.py", "w") as version_file:
+    version_file.write(file_content)
