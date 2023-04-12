@@ -31,7 +31,7 @@ _rid_pattern: Pattern = re.compile(
     "\\.(?P<service>[a-z][a-z0-9\\-]*)"
     "\\.(?P<instance>[a-z0-9][a-z0-9\\-]*)?"
     "\\.(?P<type>[a-z][a-z0-9\\-]*)"
-    "\\.(?P<locator>[a-zA-Z0-9_\\-\\.]+)"
+    "\\.(?P<locator>[a-zA-Z0-9_\\-.]+)"
 )
 
 
@@ -89,7 +89,7 @@ class ResourceIdentifier:
         Returns a ResourceIdentifier object if the value can be parsed as a resource identifier
         or raises an error.
         """
-        match = _rid_pattern.match(value)
+        match = _rid_pattern.fullmatch(value)
         if match:
             return ResourceIdentifier(
                 service=match.group("service"),
