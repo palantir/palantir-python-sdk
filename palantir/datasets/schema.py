@@ -107,12 +107,20 @@ def _get_generic_type(obj_or_dtype: Any) -> Type:
     return np.dtype(type(obj_or_dtype)).type
 
 
-def _is_nested_list(obj):
+def _is_nested_list(obj: object) -> bool:
+    from collections.abc import Sized
+
     import pandas as pd
 
-    return (
-        pd.api.types.is_list_like(obj)
-        and hasattr(obj, "__len__")
-        and len(obj) > 0
-        and all(pd.api.types.is_list_like(item) or item is None for item in obj)
-    )
+    try:
+        # check to see if the object has size and if so that it's greater than 0
+        assert hasattr(obj, "__len__") and len(cast(Sized, obj)) > 0
+
+        # checks to see if obj is list like then cast it to an iterable
+        assert pd.api.types.is_list_like(obj)
+        obj = cast(Iterable[Any], obj)
+
+        return all((pd.api.types.is_list_like(item) or item is None) for item in obj)
+    except:
+        # if at any moment any of our assertions fail, return false
+        return False
