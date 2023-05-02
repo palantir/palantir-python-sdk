@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 from datetime import date
-from typing import TYPE_CHECKING, Any, Optional, Type
+from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, cast
 
 from .types import (
     ArrayFieldType,
@@ -38,8 +38,9 @@ if TYPE_CHECKING:
 
 
 def pandas_to_foundry_schema(df: "pd.DataFrame") -> FoundrySchema:
+    columns = cast(Iterable[Any], df.columns)
     return FoundrySchema(
-        fields=[_get_field(column, df[column]) for column in df.columns],
+        fields=[_get_field(column, df[column]) for column in columns],
         file_format=FileFormat.PARQUET,
     )
 
