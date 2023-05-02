@@ -31,10 +31,10 @@ class DatasetLocator:
     def with_updated(
         self,
         *,
-        dataset_rid: ResourceIdentifier = None,
-        branch_id: str = None,
-        start_transaction_rid: ResourceIdentifier = None,
-        end_transaction_rid: ResourceIdentifier = None,
+        dataset_rid: Optional[ResourceIdentifier] = None,
+        branch_id: Optional[str] = None,
+        start_transaction_rid: Optional[ResourceIdentifier] = None,
+        end_transaction_rid: Optional[ResourceIdentifier] = None,
     ) -> "DatasetLocator":
         return DatasetLocator(
             dataset_rid or self.rid,
@@ -54,10 +54,10 @@ class FileLocator:
     def with_updated(
         self,
         *,
-        dataset_rid: ResourceIdentifier = None,
-        end_ref: str = None,
-        logical_path: str = None,
-        start_transaction_rid: str = None,
+        dataset_rid: Optional[ResourceIdentifier] = None,
+        end_ref: Optional[str] = None,
+        logical_path: Optional[str] = None,
+        start_transaction_rid: Optional[str] = None,
     ):
         return FileLocator(
             dataset_rid or self.dataset_rid,
@@ -247,10 +247,10 @@ class Field:
         name: Optional[str],
         field_type: Union[FieldType, str],
         nullable: bool = True,
-        metadata: Dict[str, Any] = None,
+        metadata: Optional[Dict[str, Any]] = None,
     ):
         self.name = name
-        self.type = (
+        self.type: Union[FieldType, str] = (
             field_type
             if isinstance(field_type, FieldType)
             else field_types[field_type]()
@@ -326,7 +326,7 @@ class FoundrySchema:
             ]
         ],
         file_format: Union[FileFormat, str] = FileFormat.PARQUET,
-        metadata: Dict[str, Any] = None,
+        metadata: Optional[Dict[str, Any]] = None,
     ):
         self.fields: List[Field] = [
             field if isinstance(field, Field)
