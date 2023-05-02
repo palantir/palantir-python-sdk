@@ -268,7 +268,8 @@ class Field:
         )
 
     def __repr__(self) -> str:
-        return f"Field(name='{self.name}', field_type={self.type}, nullable={self.nullable}, metadata={self.metadata})"
+        cls = self.__class__
+        return f"{cls.__name__}({self.name=}, {self.type=}, {self.nullable=}, {self.metadata=})"
 
 
 class FileFormat(_AutoNameEnum):
@@ -350,4 +351,5 @@ class FoundrySchema:
         )
 
     def __repr__(self) -> str:
-        return f"FoundrySchema(file_format={repr(self.format)}, fields={[repr(field) for field in self.fields]})"
+        cls = self.__class__
+        return f"{cls.__name__}(file_format={self.format!r}, fields={[repr(field) for field in self.fields]})"
