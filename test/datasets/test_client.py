@@ -103,7 +103,6 @@ def get_file(path: str) -> FileResource:
 
 # pylint: disable=too-many-public-methods
 class TestFoundryClient:
-
     AUTH_HEADER: str = "auth-header"
     DATASET_RID: ResourceIdentifier = ResourceIdentifier.from_string(
         "ri.foundry.main.dataset.0"

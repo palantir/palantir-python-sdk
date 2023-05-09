@@ -37,7 +37,6 @@ class DataProxyService(Service):
         logical_path: str,
         start_transaction_rid: str = None,
     ) -> io.IOBase:
-
         _headers: Dict[str, Any] = {
             "Accept": "application/octet-stream",
             "Authorization": auth_header,
@@ -115,7 +114,6 @@ class DataProxyConcatenationService(Service):
         request: "StartConcatenationTaskRequest",
         transaction_rid: str,
     ) -> "StartConcatenationTaskResponse":
-
         _headers: Dict[str, Any] = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -144,7 +142,6 @@ class DataProxyConcatenationService(Service):
     def get_concatenation_task_status(
         self, auth_header: str, concatenation_task_id: str
     ) -> "ConcatenationTaskStatusReport":
-
         _headers: Dict[str, Any] = {
             "Accept": "application/json",
             "Authorization": auth_header,

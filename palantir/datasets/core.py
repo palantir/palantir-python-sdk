@@ -159,7 +159,10 @@ class Dataset:
         Args:
             transaction_range: A tuple containing a start and end transaction rid.
         """
-        (start_transaction_rid, end_transaction_rid,) = (
+        (
+            start_transaction_rid,
+            end_transaction_rid,
+        ) = (
             transaction_range
             if transaction_range is not None
             else self.client.get_transaction_range(self.rid, self.branch)

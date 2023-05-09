@@ -80,7 +80,7 @@ def _get_field(  # pylint: disable=too-many-return-statements,too-many-branches
     if pd.api.types.is_object_dtype(dtype):
         if isinstance(obj[obj.index[0]], date):
             return Field(name, DateFieldType())
-        if pd.api.types.is_string_dtype(dtype):
+        if pd.api.types.is_string_dtype(dtype) or pd.api.types.is_string_dtype(obj):
             return Field(name, StringFieldType())
     raise ValueError(f"Unsupported dtype: {dtype}")
 

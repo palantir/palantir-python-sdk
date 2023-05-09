@@ -8,7 +8,7 @@ palantir_aliases:
 
 version: 2
 jobs:
-  py38:
+  py38-pandas1:
     docker:
       - image: cimg/python:3.8.16
     steps:
@@ -18,18 +18,16 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
-          command: pip install --user tox
-
-      - run:
           name: Generate _version.py
-          command: python scripts/set_version.py
+          command: /home/circleci/.pyenv/shims/python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e py38 --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e py38 --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py38-pandas1 --recreate
 
       - run:
           name: Collect JUnit XML
@@ -39,7 +37,36 @@ jobs:
       - store_test_results:
           path: ~/junit
 
-  py39:
+  py38-pandas2:
+    docker:
+      - image: cimg/python:3.8.16
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
+
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py38-pandas2 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py39-pandas1:
     docker:
       - image: cimg/python:3.9.16
     steps:
@@ -49,18 +76,16 @@ jobs:
           at: '.'
 
       - run:
-          name: Install Dependencies
-          command: pip install --user tox
-
-      - run:
           name: Generate _version.py
           command: python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e py39 --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e py39 --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py39-pandas1 --recreate
 
       - run:
           name: Collect JUnit XML
@@ -70,9 +95,38 @@ jobs:
       - store_test_results:
           path: ~/junit
 
-  py310:
+  py39-pandas2:
     docker:
-      - image: cimg/python:3.10.9
+      - image: cimg/python:3.9.16
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
+
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py39-pandas2 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py310-pandas1:
+    docker:
+      - image: cimg/python:3.10.11
     steps:
       - checkout
 
@@ -88,10 +142,112 @@ jobs:
           command: python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e py310 --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e py310 --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py310-pandas1 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py310-pandas2:
+    docker:
+      - image: cimg/python:3.10.11
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
+
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py310-pandas2 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+
+  py311-pandas1:
+    docker:
+      - image: cimg/python:3.11.3
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
+
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py311-pandas1 --recreate
+
+      - run:
+          name: Collect JUnit XML
+          command: mkdir -p ~/junit && find . -type f -regex ".*/build/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
+  py311-pandas2:
+    docker:
+      - image: cimg/python:3.11.3
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: '.'
+
+      - run:
+          name: Install Dependencies
+          command: pip install --user tox
+
+      - run:
+          name: Generate _version.py
+          command: python scripts/set_version.py
+
+      - run:
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
+
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e py311-pandas2 --recreate
 
       - run:
           name: Collect JUnit XML
@@ -119,10 +275,12 @@ jobs:
           command: python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e pylint --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e pylint --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e pylint --recreate
 
   black:
     docker:
@@ -142,10 +300,12 @@ jobs:
           command: python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e black --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e black --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e black --recreate
 
 
   mypy:
@@ -166,10 +326,12 @@ jobs:
           command: python scripts/set_version.py
 
       - run:
-          name: Setup Tox Environment
-          command: if [ ! -d ".tox" ]; then python -m tox -e mypy --notest; fi
+          name: Install Poetry Environment
+          command: poetry --no-ansi install --no-root --sync
 
-      - run: python -m tox -e mypy --recreate
+      - run:
+          name: Run Tests
+          command: poetry --no-ansi run tox -v -e mypy --recreate
 
   publish:
     docker:
@@ -192,11 +354,21 @@ workflows:
   version: 2
   build:
     jobs:
-      - py38:
+      - py38-pandas1:
           <<: *always-run
-      - py39:
+      - py38-pandas2:
           <<: *always-run
-      - py310:
+      - py39-pandas1:
+          <<: *always-run
+      - py39-pandas2:
+          <<: *always-run
+      - py310-pandas1:
+          <<: *always-run
+      - py310-pandas2:
+          <<: *always-run
+      - py311-pandas1:
+          <<: *always-run
+      - py311-pandas2:
           <<: *always-run
       - pylint:
           <<: *always-run
@@ -206,9 +378,14 @@ workflows:
           <<: *always-run
       - publish:
           requires:
-            - py38
-            - py39
-            - py310
+            - py38-pandas1
+            - py38-pandas2
+            - py39-pandas1
+            - py39-pandas2
+            - py310-pandas1
+            - py310-pandas2
+            - py311-pandas1
+            - py311-pandas2
             - pylint
             - mypy
             - black

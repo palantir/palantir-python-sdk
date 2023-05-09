@@ -139,7 +139,6 @@ class CatalogService(Service):
         page_start_logical_path: str = None,
         start_transaction_rid: str = None,
     ):
-
         _headers: Dict[str, Any] = {
             "Accept": "application/json",
             "Authorization": auth_header,
@@ -174,7 +173,6 @@ class CatalogService(Service):
     def start_transaction(
         self, auth_header: str, dataset_rid: str, request: "StartTransactionRequest"
     ) -> "Transaction":
-
         _headers: Dict[str, Any] = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -525,7 +523,6 @@ class DependencyType(ConjureEnumType):
 
 
 class TransactionType(ConjureEnumType):
-
     UPDATE = "UPDATE"
     """UPDATE"""
     APPEND = "APPEND"
@@ -544,7 +541,6 @@ class TransactionType(ConjureEnumType):
 
 
 class TransactionStatus(ConjureEnumType):
-
     OPEN = "OPEN"
     """OPEN"""
     COMMITTED = "COMMITTED"
@@ -685,7 +681,6 @@ class Transaction(ConjureBeanType):
 
 
 class FilePathType(ConjureEnumType):
-
     NO_FILES = "NO_FILES"
     """NO_FILES"""
     MANAGED_FILES = "MANAGED_FILES"

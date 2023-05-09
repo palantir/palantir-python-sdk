@@ -54,7 +54,10 @@ def dataset(
             return client.create_dataset(dataset_ref, branch_id)
         raise ValueError(f"could not resolve dataset_ref '{dataset_ref}'")
 
-    (start_transaction_rid, end_transaction_rid,) = (
+    (
+        start_transaction_rid,
+        end_transaction_rid,
+    ) = (
         transaction_range
         if transaction_range is not None
         else client.get_transaction_range(rid, branch_id)
