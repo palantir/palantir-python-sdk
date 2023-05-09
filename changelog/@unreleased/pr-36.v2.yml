@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Add support for pandas 2
+  links:
+  - https://github.com/palantir/palantir-python-sdk/pull/36

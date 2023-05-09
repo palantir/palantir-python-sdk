@@ -358,7 +358,6 @@ class FoundryFieldSchema(ConjureBeanType):
 
 
 class FoundryFieldType(ConjureEnumType):
-
     ARRAY = "ARRAY"
     """ARRAY"""
     DECIMAL = "DECIMAL"

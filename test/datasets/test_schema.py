@@ -71,6 +71,8 @@ class TestPandasSchemaConverter:
             (pd.Series([1.1, 2.2], dtype=float), DoubleFieldType()),
             (pd.Series([1.1, 2.2]), DoubleFieldType()),
             (pd.Series(["one", "two"], dtype=str), StringFieldType()),
+            (pd.Series(["one", "two"], dtype=object), StringFieldType()),
+            (pd.Series(["one", "two"], dtype=np.object_), StringFieldType()),
             (pd.Series(["one", "two"]), StringFieldType()),
             (pd.Series([pd.Timestamp(1), pd.Timestamp(2)]), TimestampFieldType()),
             (
