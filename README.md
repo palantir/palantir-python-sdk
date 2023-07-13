@@ -118,6 +118,35 @@ dataset("ri.foundry.main.dataset.a0a94f00-754e-49ff-a4f6-4f5cc200d45d") \
 1    two        2
 ```
 
+### If the Dataset in foundry is too large, you can list the files that are part of the dataset. Read individual parquet files that are part
+### of the dataset and combine them as a single Pandas Dataframe. Below is a example
+
+```
+import pyarrow as pa
+import pyarrow.parquet as pq
+from io import BytesIO
+from palantir.datasets import dataset
+
+# Get a list of all parquet files in the directory
+files = dataset("/Path/to/dataset").list_files()
+
+# Read each parquet file as a table and add to list
+table_list = []
+for file in files:
+    data = file.read()
+    table = pq.read_table(source=BytesIO(data.read()))
+    table_list.append(table)
+
+# Concatenate all tables into a single table
+batches = [batch for table in table_list for batch in table.to_batches()]
+combined_table = pa.Table.from_batches(batches)
+
+# Convert the combined table to a Pandas DataFrame
+df = combined_table.to_pandas()
+
+# Print the data from the Parquet files
+print(df.shape[0]) 
+```
 ## Contributing
 
 See the [CONTRIBUTING.md](./CONTRIBUTING.md) document.  Releases are published to [pypi](https://pypi.org/project/palantir-sdk/) on tag builds and are automatically re-published to [conda](https://anaconda.org/conda-forge/palantir-sdk) using [conda-forge](https://github.com/conda-forge/palantir-sdk-feedstock/).
