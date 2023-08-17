@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from typing import Tuple
+from typing import Tuple, Optional
 
 from palantir.core import context
 from palantir.core.types import PalantirContext, ResourceIdentifier
@@ -23,10 +23,10 @@ from palantir.datasets.types import DatasetLocator
 
 def dataset(
     dataset_ref: str,
-    branch: str = None,
-    transaction_range: Tuple[str, str] = None,
-    create: bool = False,
-    ctx: PalantirContext = None,
+    branch: Optional[str] = None,
+    transaction_range: Optional[Tuple[str, str]] = None,
+    create: Optional[bool] = False,
+    ctx: Optional[PalantirContext] = None,
 ) -> "Dataset":
     """
     Constructs a new Dataset object from the provided reference.

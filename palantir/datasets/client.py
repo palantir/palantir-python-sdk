@@ -15,7 +15,19 @@
 import io
 from os.path import relpath
 from time import sleep
-from typing import TYPE_CHECKING, Generator, Optional, Tuple, Any, Union, Dict
+from typing import (
+    TYPE_CHECKING,
+    Generator,
+    Optional,
+    Tuple,
+    Any,
+    Union,
+    Dict,
+    Protocol,
+    Generic,
+    TypeVar,
+    Iterator,
+)
 
 from dateutil.parser import isoparse
 
@@ -89,8 +101,19 @@ if TYPE_CHECKING:
     from palantir.datasets.core import File, Transaction, Dataset
     import pyarrow as pa
 
+_T = TypeVar("_T", covariant=True)
 
-def _chunk(content, chunk_size):
+
+class SizedContainer(Protocol, Generic[_T]):
+    def __len__(self) -> int:
+        ...
+
+    def __getitem__(self, *args: slice) -> Any:
+        ...
+
+
+# guessing the return type, infering the type of content based on how it's used
+def _chunk(content: SizedContainer[_T], chunk_size: int) -> Iterator[_T]:
     for offset in range(0, len(content), chunk_size):
         yield content[offset : offset + chunk_size]
 

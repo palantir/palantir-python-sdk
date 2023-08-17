@@ -58,7 +58,7 @@ class Dataset:
             self.locator.end_transaction_rid,
         )
 
-    def list_files(self, path: str = None) -> Generator["File", None, None]:
+    def list_files(self, path: Optional[str] = None) -> Generator["File", None, None]:
         """
         Lists the files in the Dataset for the :prop:`view`.
 
@@ -116,7 +116,7 @@ class Dataset:
         self.client.put_schema(self, pandas_to_foundry_schema(df))
 
     def start_transaction(
-        self, txn_type: Union[str, TransactionType] = None
+        self, txn_type: Optional[Union[str, TransactionType]] = None
     ) -> "Transaction":
         """
         Starts a new Transaction on the Dataset. Transactions can be used as a context manager to automatically commit
@@ -151,7 +151,7 @@ class Dataset:
 
     def update_view(
         self,
-        transaction_range: Tuple[str, str] = None,
+        transaction_range: Optional[Tuple[str, str]] = None,
     ) -> None:
         """
         Updates the current dataset view. Retrieves the latest view when parameters are not specified.
@@ -256,10 +256,10 @@ class File:
         self,
         dataset: Dataset,
         path: str,
-        modified: datetime = None,
-        transaction_rid: ResourceIdentifier = None,
-        length: int = None,
-        client: "DatasetsClient" = None,
+        modified: Optional[datetime] = None,
+        transaction_rid: Optional[ResourceIdentifier] = None,
+        length: Optional[int] = None,
+        client: Optional["DatasetsClient"] = None,
     ):
         self.dataset = dataset
         self.path = path
