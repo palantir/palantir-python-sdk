@@ -1,3 +1,6 @@
+> [!WARNING]
+> This SDK is deprecated in favour of the new [Foundry Platform SDK](https://github.com/palantir/foundry-platform-python). This repository will remain unarchived to support legacy usage of the old Palantir Python SDK.
+> 
 # Palantir Python SDK
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/palantir-sdk)
 [![PyPI](https://img.shields.io/pypi/v/palantir-sdk)](https://pypi.org/project/palantir-sdk/)
